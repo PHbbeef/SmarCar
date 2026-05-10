@@ -5,60 +5,86 @@ com_control::com_control(QWidget *parent)
 {
     com = new QSerialPort(this);
 
+    // 串口参数配置
     baudRate = QSerialPort::Baud115200;
     stopBits = QSerialPort::OneStop;
     dataBits = QSerialPort::Data8;
     checkBits = QSerialPort::NoParity;
-    com->setPortName("/dev/ttyUSB0");   // 串口选择
+
+    // 必须先设置参数，再设置端口，再打开
+    com->setBaudRate(baudRate);
+    com->setStopBits(stopBits);
+    com->setDataBits(dataBits);
+    com->setParity(checkBits);
+    com->setFlowControl(QSerialPort::NoFlowControl);
+
+    com->setPortName("/dev/ttyUSB0");
+
+    // 连接接收信号
+    connect(com, &QSerialPort::readyRead, this, &com_control::receive);
+
     openCom();
-
 }
 
-
-void com_control::openCom(){
-    // 判断串口是否打开
-    if(com->open(QIODevice::ReadWrite)){
-        return;
-
-    }else{
-        // 串口无法打开错误信息
-        QMessageBox::critical(this,"错误提示","打开串口失败");
-        QMessageBox::critical(this,"串口信息",com->portName());
+void com_control::openCom()
+{
+    // 如果已经打开，先关闭
+    if (com->isOpen()) {
+        com->close();
     }
 
+    // 打开串口
+    if (com->open(QIODevice::ReadWrite)) {
+        qDebug() << "串口打开成功：" << com->portName();
+    } else {
+        QMessageBox::critical(this, "错误提示", "打开串口失败！\n" + com->errorString());
+        QMessageBox::critical(this, "失败端口", com->portName());
+    }
 }
 
-QString com_control::msgCom(const QString &str){
+QString com_control::msgCom(const QString &str)
+{
+    if (!com->isOpen()) {
+        QMessageBox::warning(this, "警告", "串口未打开，无法发送");
+        return "";
+    }
+
     com->write(str.toLatin1());
+    com->flush();
+    qDebug() << "发送成功：" << str;
+    return str;
 }
 
-void com_control::receive(){
-    QByteArray buf; // 接收缓冲区
-    buf = com->readAll();
 
-    QString str; // 定义一个字符变量
-
-    if(!buf.isEmpty()){
-        str = tr(buf);  // 将字节数字的数据转换成字符类型
+void com_control::receive()
+{
+    QByteArray buf = com->readAll();
+    if (!buf.isEmpty()) {
+        QString str = QString::fromLatin1(buf);
+        qDebug() << "====================";
         qDebug() << "接收数据：" << str;
+        qDebug() << "====================";
     }
 }
 
-// 前进
-void com_control::onStartAction1() {
-    QString msg = "@z\r\n";
-    com->write(msg.toLatin1());
+
+void com_control::onStartAction1()
+{
+    com->write("@z\r\n");
+    com->flush();
+    qDebug() << "前进";
 }
 
-// 左转
-void com_control::onStartAction2() {
-    QString msg = "@1\r\n";
-    com->write(msg.toLatin1());
+void com_control::onStartAction2()
+{
+    com->write("@1\r\n");
+    com->flush();
+    qDebug() << "左转";
 }
 
-// 右转
-void com_control::onStartAction3() {
-    QString msg = "@0\r\n";
-    com->write(msg.toLatin1());
+void com_control::onStartAction3()
+{
+    com->write("@0\r\n");
+    com->flush();
+    qDebug() << "右转";
 }
-

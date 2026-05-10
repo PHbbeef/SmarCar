@@ -18,10 +18,11 @@ public:
     // 串口发送
     QString msgCom(const QString &str);
 
-    // 单片机控制方向函数
+    // 向EPS32发送数据控制前轮转动
     void onStartAction1();
     void onStartAction2();
     void onStartAction3();
+
 
 private:
     QSerialPort::BaudRate baudRate; // 波特率

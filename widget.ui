@@ -16,11 +16,14 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>20</y>
-     <width>691</width>
-     <height>211</height>
+     <width>751</width>
+     <height>151</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>无图像</string>
@@ -32,8 +35,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>380</y>
+     <x>860</x>
+     <y>510</y>
      <width>99</width>
      <height>28</height>
     </rect>
@@ -45,8 +48,8 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>380</y>
+     <x>990</x>
+     <y>510</y>
      <width>99</width>
      <height>28</height>
     </rect>
@@ -58,14 +61,33 @@
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>620</x>
-     <y>380</y>
+     <x>1100</x>
+     <y>510</y>
      <width>99</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
     <string>右转</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>751</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>无图像</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
  </widget>

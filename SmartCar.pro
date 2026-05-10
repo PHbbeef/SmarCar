@@ -1,5 +1,6 @@
 QT       += core gui
 QT += serialport
+QT += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,10 +13,12 @@ CONFIG += c++17
 SOURCES += \
     com_control.cpp \
     main.cpp \
+    opencv_data.cpp \
     widget.cpp
 
 HEADERS += \
     com_control.h \
+    opencv_data.h \
     widget.h
 
 FORMS += \
@@ -25,3 +28,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+LIBS += -LE:\OpenCV4.11_mingw8.10\x64\mingw\lib \
+        -lopencv_world4110
+
+INCLUDEPATH += E:\OpenCV4.11_mingw8.10\include
+DEPENDPATH += E:\OpenCV4.11_mingw8.10\include
+

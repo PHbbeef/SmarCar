@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <com_control.h>
+#include <opencv_data.h>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,9 +25,15 @@ private slots:
     void onStartAction2();
     void onStartAction3();
 
+    // 获取视频帧传输到 label
+    void updateAllVideo();
 
 private:
     Ui::Widget *ui;
     com_control *mycom;
+    opencv_data *cvData;
+    QTimer *timer;
+
+    void showMatToLabel(cv::Mat &mat, QLabel *label);
 };
 #endif // WIDGET_H
